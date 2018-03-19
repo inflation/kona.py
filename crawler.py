@@ -30,6 +30,7 @@ class Crawler:
                  buffer_size=128):
         self.base_url = base_url
         self.loop = loop
+        self.image_path = image_path
         self.session = aiohttp.ClientSession(loop=self.loop, trust_env=True)
         self.timeout = timeout
         self.max_workers = max_workers
@@ -149,14 +150,14 @@ if __name__ == '__main__':
         '+'.join(args.tags), args.rating, args.buffer)
     print(request_url)
 
-    image_path = os.path.join('.', args.ouput)
-    if not os.path.exists(image_path):
-        os.makedirs(image_path)
+    folder_path = os.path.join('.', args.output)
+    if not os.path.exists(folder_path):
+        os.makedirs(folder_path)
 
     main_loop = asyncio.get_event_loop()
     crawler = Crawler(
         request_url,
-        image_path=image_path,
+        image_path=folder_path,
         image_kind=args.kind,
         loop=main_loop,
         max_workers=args.workers,
